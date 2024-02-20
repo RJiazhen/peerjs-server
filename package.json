@@ -68,7 +68,7 @@
 		"check": "tsc --noEmit",
 		"test": "npm run lint && jest",
 		"coverage": "jest --coverage",
-		"start": "node dist/bin/peerjs.js --port ${PORT:=9000}",
+		"start": "node dist/bin/peerjs.js --port 9000 --path /peerjs-server --allow_override_connection true",
 		"dev": "nodemon --watch src -e ts --exec 'npm run build && npm run start'",
 		"semantic-release": "semantic-release"
 	},
@@ -106,5 +106,8 @@
 		"prettier": "^3.0.0",
 		"semantic-release": "^22.0.0",
 		"typescript": "^5.1.6"
+	},
+	"volta": {
+		"node": "20.11.1"
 	}
 }
