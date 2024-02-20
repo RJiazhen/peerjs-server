@@ -106,7 +106,6 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 				return;
 			}
 			if (this.config.allow_override_connection) {
-				this.realm.removeClientById(id);
 				client.send({ type: MessageType.OVERRIDE_CONNECTION });
 				client.getSocket()?.close();
 			}
