@@ -73,6 +73,11 @@ const opts = y
 			demandOption: false,
 			describe: "allow discovery of peers",
 		},
+		allow_override_connection: {
+			type: "boolean",
+			demandOption: false,
+			describe: "allow overriding connections",
+		},
 		proxied: {
 			type: "boolean",
 			demandOption: false,
@@ -85,7 +90,7 @@ const opts = y
 			describe: "Set the list of CORS origins",
 		},
 	})
-	.boolean("allow_discovery")
+	.boolean(["allow_discovery", "allow_override_connection"])
 	.parseSync();
 
 if (!opts.port) {

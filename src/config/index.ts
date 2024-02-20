@@ -10,6 +10,7 @@ export interface IConfig {
 	readonly path: string;
 	readonly concurrent_limit: number;
 	readonly allow_discovery: boolean;
+	readonly allow_override_connection: boolean;
 	readonly proxied: boolean | string;
 	readonly cleanup_out_msgs: number;
 	readonly ssl?: {
@@ -27,9 +28,10 @@ const defaultConfig: IConfig = {
 	expire_timeout: 5000,
 	alive_timeout: 90000,
 	key: "peerjs",
-	path: "/",
+	path: "/my-peerjs-server",
 	concurrent_limit: 5000,
 	allow_discovery: false,
+	allow_override_connection: false,
 	proxied: false,
 	cleanup_out_msgs: 1000,
 	corsOptions: { origin: true },
