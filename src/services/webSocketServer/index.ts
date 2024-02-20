@@ -17,7 +17,11 @@ export interface IWebSocketServer extends EventEmitter {
 
 type CustomConfig = Pick<
 	IConfig,
-	"path" | "key" | "concurrent_limit" | "createWebSocketServer"
+	| "path"
+	| "key"
+	| "concurrent_limit"
+	| "createWebSocketServer"
+	| "allow_override_connection"
 >;
 
 const WS_PATH = "peerjs";
@@ -85,9 +89,11 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 		}
 
 		const client = this.realm.getClientById(id);
-
 		if (client) {
-			if (token !== client.getToken()) {
+			if (
+				token !== client.getToken() &&
+				!this.config.allow_override_connection
+			) {
 				// ID-taken, invalid token
 				socket.send(
 					JSON.stringify({
@@ -98,6 +104,11 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
 
 				socket.close();
 				return;
+			}
+			if (this.config.allow_override_connection) {
+				this.realm.removeClientById(id);
+				client.send({ type: MessageType.OVERRIDE_CONNECTION });
+				client.getSocket()?.close();
 			}
 
 			this._configureWS(socket, client);
