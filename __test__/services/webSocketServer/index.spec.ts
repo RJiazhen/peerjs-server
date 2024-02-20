@@ -62,7 +62,12 @@ const createTestServer = ({
 	url,
 }: {
 	realm: Realm;
-	config: { path: string; key: string; concurrent_limit: number };
+	config: {
+		path: string;
+		key: string;
+		concurrent_limit: number;
+		allow_override_connection: boolean;
+	};
 	url: string;
 }): Destroyable<WebSocketServer> => {
 	const server = new Server(url) as Server & HttpServer;
@@ -134,7 +139,12 @@ const createTestServer = ({
 describe("WebSocketServer", () => {
 	it("should return valid path", () => {
 		const realm = new Realm();
-		const config = { path: "/", key: "testKey", concurrent_limit: 1 };
+		const config = {
+			path: "/",
+			key: "testKey",
+			concurrent_limit: 1,
+			allow_override_connection: false,
+		};
 		const config2 = { ...config, path: "path" };
 		const server = new Server("path1") as Server & HttpServer;
 		const server2 = new Server("path2") as Server & HttpServer;
@@ -157,7 +167,12 @@ describe("WebSocketServer", () => {
 
 	it(`should check client's params`, async () => {
 		const realm = new Realm();
-		const config = { path: "/", key: "testKey", concurrent_limit: 1 };
+		const config = {
+			path: "/",
+			key: "testKey",
+			concurrent_limit: 1,
+			allow_override_connection: false,
+		};
 		const fakeURL = "ws://localhost:8080/peerjs";
 
 		const getError = async (
@@ -192,7 +207,12 @@ describe("WebSocketServer", () => {
 
 	it(`should check concurrent limit`, async () => {
 		const realm = new Realm();
-		const config = { path: "/", key: "testKey", concurrent_limit: 1 };
+		const config = {
+			path: "/",
+			key: "testKey",
+			concurrent_limit: 1,
+			allow_override_connection: false,
+		};
 		const fakeURL = "ws://localhost:8080/peerjs";
 
 		const createClient = (id: string): Destroyable<WebSocket> => {
